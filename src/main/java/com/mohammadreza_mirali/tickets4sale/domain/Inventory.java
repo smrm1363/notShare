@@ -1,8 +1,11 @@
 package com.mohammadreza_mirali.tickets4sale.domain;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class Inventory {
     private List<Show> showList = new ArrayList<>();
 
@@ -13,4 +16,5 @@ public class Inventory {
     public void setShowList(List<Show> showList) {
         this.showList = showList;
     }
+
 }

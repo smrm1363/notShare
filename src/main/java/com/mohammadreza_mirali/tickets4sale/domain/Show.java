@@ -1,11 +1,20 @@
 package com.mohammadreza_mirali.tickets4sale.domain;
 
+
+
 import java.time.LocalDate;
+
 
 public class Show {
     private String title;
     private LocalDate startDate;
-    private Genre genre;
+    private GenreEnum genreEnum;
+
+    public Show(String title, LocalDate startDate, GenreEnum genreEnum) {
+        this.title = title;
+        this.startDate = startDate;
+        this.genreEnum = genreEnum;
+    }
 
     public String getTitle() {
         return title;
@@ -23,11 +32,19 @@ public class Show {
         this.startDate = startDate;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public GenreEnum getGenreEnum() {
+        return genreEnum;
     }
 
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void setGenre(GenreEnum genreEnum) {
+        this.genreEnum = genreEnum;
     }
+
+
+    public LocalDate getEndDate(Short showValidPeriod)
+    {
+        return this.startDate.plusDays(showValidPeriod);
+    }
+
+
 }
