@@ -1,20 +1,22 @@
 package com.mohammadreza_mirali.tickets4sale.domain;
 
 public enum  GenreEnum {
-    MUSICAL {
-        public String toString() {
-            return "Musical";
-        }
-    },
-    COMEDY {
-        public String toString() {
-            return "Comedy";
-        }
-    },
-    DRAMA {
-        public String toString() {
-            return "Drama";
-        }
+    MUSICAL ("Musical"),
+    COMEDY ("Comedy"),
+    DRAMA ("Drama");
+
+    private final String name;
+
+    private GenreEnum(String s) {
+        name = s;
     }
 
+    public boolean equalsName(String otherName) {
+        // (otherName == null) check is not needed because name.equals(null) returns false
+        return name.equals(otherName);
+    }
+
+    public String toString() {
+        return this.name;
+    }
 }
