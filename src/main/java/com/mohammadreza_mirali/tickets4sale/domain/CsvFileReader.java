@@ -1,4 +1,4 @@
-package com.mohammadreza_mirali.tickets4sale.domain.repository;
+package com.mohammadreza_mirali.tickets4sale.domain;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;

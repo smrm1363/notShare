@@ -1,4 +1,4 @@
-package com.mohammadreza_mirali.tickets4sale.domain;
+package com.mohammadreza_mirali.tickets4sale.domain.show;
 
 public enum  GenreEnum {
     MUSICAL ("Musical"),

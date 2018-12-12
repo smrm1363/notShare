@@ -1,5 +1,7 @@
 package com.mohammadreza_mirali.tickets4sale.domain;
 
+import com.mohammadreza_mirali.tickets4sale.domain.show.GenreEnum;
+import com.mohammadreza_mirali.tickets4sale.domain.show.ShowEntity;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -15,7 +17,7 @@ import static org.junit.Assert.*;
 /**
  * Created by mmirali on 09/12/2018.
  */
-public class ShowTest {
+public class ShowEntityTest {
 
     private static ValidatorFactory validatorFactory;
     private static Validator validator;
@@ -26,17 +28,19 @@ public class ShowTest {
     }
     @Test
     public void setTitle() throws Exception {
-        Show show = new Show();
-        show.setTitle("test");
-        assertTrue(show.getTitle().equals("test"));
+        ShowEntity showEntity = new ShowEntity();
+        showEntity.setTitle("test");
+        assertTrue(showEntity.getTitle().equals("test"));
 
     }
     @Test
     public void setTitleWrongWay() throws Exception {
-        Show show = new Show();
-        show.setTitle("");
-        Set<ConstraintViolation<Show>> violations
-                = validator.validate(show);
+        ShowEntity showEntity = new ShowEntity();
+        showEntity.setGenre(GenreEnum.COMEDY);
+        showEntity.setStartDate(LocalDate.parse("2017-06-01"));
+        showEntity.setTitle("");
+        Set<ConstraintViolation<ShowEntity>> violations
+                = validator.validate(showEntity);
         assertTrue(violations.isEmpty());
 
 
@@ -45,14 +49,14 @@ public class ShowTest {
 
     @Test
     public void setStartDate() throws Exception {
-        Show show = new Show().setStartDate(LocalDate.parse("2017-06-01"));
-        assertTrue(show.getStartDate().equals(LocalDate.parse("2017-06-01")));
+        ShowEntity showEntity = new ShowEntity().setStartDate(LocalDate.parse("2017-06-01"));
+        assertTrue(showEntity.getStartDate().equals(LocalDate.parse("2017-06-01")));
     }
 
     @Test
     public void setGenre() throws Exception {
-        Show show = new Show().setGenre(GenreEnum.valueOf("MUSICAL"));
-        assertTrue(show.getGenreEnum().equals(GenreEnum.MUSICAL));
+        ShowEntity showEntity = new ShowEntity().setGenre(GenreEnum.valueOf("MUSICAL"));
+        assertTrue(showEntity.getGenreEnum().equals(GenreEnum.MUSICAL));
     }
 
 }

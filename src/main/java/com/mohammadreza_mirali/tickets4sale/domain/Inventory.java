@@ -1,5 +1,6 @@
 package com.mohammadreza_mirali.tickets4sale.domain;
 
+import com.mohammadreza_mirali.tickets4sale.domain.show.ShowEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -7,14 +8,14 @@ import java.util.List;
 
 @Component
 public class Inventory {
-    private List<Show> showList = new ArrayList<>();
+    private List<ShowEntity> showEntityList = new ArrayList<>();
 
-    public List<Show> getShowList() {
-        return showList;
+    public List<ShowEntity> getShowEntityList() {
+        return showEntityList;
     }
 
-    public void setShowList(List<Show> showList) {
-        this.showList = showList;
+    public void setShowEntityList(List<ShowEntity> showEntityList) {
+        this.showEntityList = showEntityList;
     }
 
 }

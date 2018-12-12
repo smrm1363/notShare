@@ -1,17 +1,29 @@
-package com.mohammadreza_mirali.tickets4sale.domain;
+package com.mohammadreza_mirali.tickets4sale.domain.show;
 
 
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
+@Table(
+        uniqueConstraints=
+        @UniqueConstraint(columnNames={"title", "startDate","genreEnum"})
+)
+@Entity
+public class ShowEntity {
 
-public class Show {
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private String id;
 
+    @NotNull
     private String title;
+    @NotNull
     private LocalDate startDate;
+    @NotNull
     private GenreEnum genreEnum;
 
 
@@ -20,7 +32,7 @@ public class Show {
     }
 
 
-    public Show setTitle(@NotNull @Size(min = 1) String title) {
+    public ShowEntity setTitle(@Size(min = 1) String title) {
         this.title = title;
         return this;
     }
@@ -29,7 +41,7 @@ public class Show {
         return startDate;
     }
 
-    public Show setStartDate(@Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$") LocalDate startDate) {
+    public ShowEntity setStartDate(@Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$") LocalDate startDate) {
         this.startDate = startDate;
         return this;
     }
@@ -38,7 +50,7 @@ public class Show {
         return genreEnum;
     }
 
-    public Show setGenre(GenreEnum genreEnum) {
+    public ShowEntity setGenre(GenreEnum genreEnum) {
         this.genreEnum = genreEnum;
         return this;
     }
