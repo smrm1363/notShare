@@ -35,7 +35,7 @@ public void saveAllFromCsv(String filePath) throws IOException {
             return;
         LocalDate localDate = LocalDate.parse(strings[1]);
         GenreEnum genreEnum = GenreEnum.valueOf(strings[2].toUpperCase());
-        ShowEntity showEntity = showRepository.findByTitleAndAndStartDateAndAndGenreEnum(title,localDate,genreEnum);
+        ShowEntity showEntity = showRepository.findByTitleAndAndStartDateAndGenreEnum(title,localDate,genreEnum);
         if(showEntity == null)
              showEntity = new ShowEntity();
         showEntity.setTitle(strings[0]).setStartDate(LocalDate.parse(strings[1])).setGenre(genreEnum);
