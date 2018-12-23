@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class FullPriceStrategy implements PriceStrategy {
     @Override
-    public Integer calculatePrice(LocalDate PerformanceDate, ShowEntity showEntity) throws IOException {
+    public Integer calculatePrice(ShowEntity showEntity) throws IOException {
         Properties properties = PropertiesLoader.loadProperties("application.properties");
 
         Integer priceOfGenre = Integer.valueOf(properties.getProperty(showEntity.getGenreEnum().toString()));

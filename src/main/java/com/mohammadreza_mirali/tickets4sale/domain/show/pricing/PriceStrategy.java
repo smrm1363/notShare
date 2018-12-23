@@ -8,5 +8,5 @@ import java.time.LocalDate;
 
 @FunctionalInterface
 public interface PriceStrategy {
-    Integer calculatePrice(LocalDate PerformanceDate, ShowEntity showEntity) throws IOException;
+    Integer calculatePrice(ShowEntity showEntity) throws IOException;
 }
