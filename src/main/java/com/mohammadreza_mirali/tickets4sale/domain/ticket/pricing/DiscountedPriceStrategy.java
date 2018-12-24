@@ -1,10 +1,9 @@
-package com.mohammadreza_mirali.tickets4sale.domain.show.pricing;
+package com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing;
 
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowEntity;
 import com.mohammadreza_mirali.tickets4sale.util.PropertiesLoader;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Properties;
 
 public class DiscountedPriceStrategy implements PriceStrategy {

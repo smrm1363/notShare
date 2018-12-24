@@ -2,10 +2,14 @@ package com.mohammadreza_mirali.tickets4sale.domain.show;
 
 
 
+import com.mohammadreza_mirali.tickets4sale.domain.ticket.TicketEntity;
+import com.mohammadreza_mirali.tickets4sale.util.PropertiesLoader;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,6 +32,7 @@ public class ShowEntity {
     private GenreEnum genreEnum;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "showEntity")
     private List<TicketEntity> ticketEntityList;
+    private ShowStateEnum showStateEnum;
 
 
     public String getTitle() {
@@ -53,15 +58,41 @@ public class ShowEntity {
         return genreEnum;
     }
 
-    public ShowEntity setGenre(GenreEnum genreEnum) {
+    public ShowEntity setGenreEnum(GenreEnum genreEnum) {
         this.genreEnum = genreEnum;
         return this;
     }
 
+    public String getId() {
+        return id;
+    }
 
-    public LocalDate getEndDate(Short showValidPeriod)
-    {
-        return this.startDate.plusDays(showValidPeriod);
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public List<TicketEntity> getTicketEntityList() {
+        return ticketEntityList;
+    }
+
+    public void setTicketEntityList(List<TicketEntity> ticketEntityList) {
+        this.ticketEntityList = ticketEntityList;
+    }
+
+    public ShowStateEnum getShowStateEnum() {
+        return showStateEnum;
+    }
+
+    public void setShowStateEnum(ShowStateEnum showStateEnum) {
+        this.showStateEnum = showStateEnum;
+    }
+
+    public short getValidPeriod() throws IOException {
+       return Short.parseShort(PropertiesLoader.loadProperties("application.properties").getProperty("show_valid_period"));
+
+    }
+    public LocalDate getEndDate() throws IOException {
+        return this.startDate.plusDays(getValidPeriod());
     }
 
 

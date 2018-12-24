@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Component
 public interface ShowRepository extends JpaRepository<ShowEntity,String> {
-    ShowEntity findByTitleAndAndStartDateAndGenreEnum(String title, LocalDate startDate,GenreEnum genreEnum);
+    ShowEntity findByTitleAndStartDateAndGenreEnum(String title, LocalDate startDate,GenreEnum genreEnum);
 
 
 }

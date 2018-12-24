@@ -36,7 +36,7 @@ public class ShowEntityTest {
     @Test
     public void setTitleWrongWay() throws Exception {
         ShowEntity showEntity = new ShowEntity();
-        showEntity.setGenre(GenreEnum.COMEDY);
+        showEntity.setGenreEnum(GenreEnum.COMEDY);
         showEntity.setStartDate(LocalDate.parse("2017-06-01"));
         showEntity.setTitle("");
         Set<ConstraintViolation<ShowEntity>> violations
@@ -55,7 +55,7 @@ public class ShowEntityTest {
 
     @Test
     public void setGenre() throws Exception {
-        ShowEntity showEntity = new ShowEntity().setGenre(GenreEnum.valueOf("MUSICAL"));
+        ShowEntity showEntity = new ShowEntity().setGenreEnum(GenreEnum.valueOf("MUSICAL"));
         assertTrue(showEntity.getGenreEnum().equals(GenreEnum.MUSICAL));
     }
 

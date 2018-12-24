@@ -24,6 +24,6 @@ public class Tickets4saleApplication implements CommandLineRunner {
 	@Override
 	public void run(String... strings) throws Exception {
 
-		showService.saveAllFromCsv("E:\\projects\\myself\\Netherland\\Otravo\\shows.csv");
+//		showService.saveAllFromCsv("E:\\projects\\myself\\Netherland\\Otravo\\shows.csv");
 	}
 }

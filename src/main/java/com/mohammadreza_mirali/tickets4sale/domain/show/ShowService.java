@@ -35,10 +35,10 @@ public void saveAllFromCsv(String filePath) throws IOException {
             return;
         LocalDate localDate = LocalDate.parse(strings[1]);
         GenreEnum genreEnum = GenreEnum.valueOf(strings[2].toUpperCase());
-        ShowEntity showEntity = showRepository.findByTitleAndAndStartDateAndGenreEnum(title,localDate,genreEnum);
+        ShowEntity showEntity = showRepository.findByTitleAndStartDateAndGenreEnum(title,localDate,genreEnum);
         if(showEntity == null)
              showEntity = new ShowEntity();
-        showEntity.setTitle(strings[0]).setStartDate(LocalDate.parse(strings[1])).setGenre(genreEnum);
+        showEntity.setTitle(strings[0]).setStartDate(LocalDate.parse(strings[1])).setGenreEnum(genreEnum);
         showEntities.add(showEntity);
     });
     showRepository.saveAll(showEntities);

@@ -2,9 +2,8 @@ package com.mohammadreza_mirali.tickets4sale.domain.show.pricing;
 
 import com.mohammadreza_mirali.tickets4sale.domain.show.GenreEnum;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowEntity;
+import com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing.DiscountedPriceStrategy;
 import org.junit.Test;
-
-import java.time.LocalDate;
 
 import static org.junit.Assert.*;
 
@@ -14,7 +13,7 @@ public class DiscountedPriceStrategyTest {
         DiscountedPriceStrategy discountedPriceStrategy = new DiscountedPriceStrategy();
         ShowEntity showEntity = new ShowEntity();
         showEntity.setTitle("Test show");
-        showEntity.setGenre(GenreEnum.COMEDY);
+        showEntity.setGenreEnum(GenreEnum.COMEDY);
         Integer result= discountedPriceStrategy.calculatePrice(showEntity);
         assertTrue(result==40);
     }
