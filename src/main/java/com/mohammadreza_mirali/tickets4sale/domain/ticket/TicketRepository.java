@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * Created by mmirali on 08/12/2018.
  */
 @Component
-public interface TicketRepository extends JpaRepository<ShowEntity,String> {
+public interface TicketRepository extends JpaRepository<TicketEntity,String> {
 
 
 

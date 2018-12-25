@@ -1,19 +1,23 @@
 package com.mohammadreza_mirali.tickets4sale.domain;
 
 public enum  HallEnum {
-    SMALL (100),
-    BIG (200);
+    SMALL (5),
+    BIG (10);
 
 
-    private final int capacity;
+    private final int sellPerDay;
 
     private HallEnum(int c) {
-        capacity = c;
+        sellPerDay = c;
     }
 
+    public int getSellPerDay()
+    {
+        return sellPerDay;
+    }
     public boolean equalsName(int otherName) {
 
-        return capacity==otherName;
+        return sellPerDay==otherName;
     }
 
 

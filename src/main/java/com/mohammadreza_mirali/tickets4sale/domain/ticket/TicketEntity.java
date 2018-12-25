@@ -68,4 +68,14 @@ public class TicketEntity {
     public void setSoldDate(LocalDate soldDate) {
         SoldDate = soldDate;
     }
+    public TicketEntity copy()
+    {
+        TicketEntity ticketEntity = new TicketEntity();
+        ticketEntity.setTicketDate(ticketDate);
+        ticketEntity.setHallEnum(hallEnum);
+        ticketEntity.setShowEntity(showEntity);
+        ticketEntity.setPrice(price);
+        ticketEntity.setSoldDate(getSoldDate());
+        return ticketEntity;
+    }
 }
