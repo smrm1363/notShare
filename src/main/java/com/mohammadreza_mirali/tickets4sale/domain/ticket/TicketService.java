@@ -5,6 +5,7 @@ import com.mohammadreza_mirali.tickets4sale.domain.HallEnum;
 import com.mohammadreza_mirali.tickets4sale.domain.Inventory;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowEntity;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowService;
+import com.mohammadreza_mirali.tickets4sale.domain.show.ShowStateEnum;
 import com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing.PriceStrategy;
 import com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing.PriceStrategyFactory;
 import com.sun.xml.internal.bind.v2.TODO;
@@ -28,17 +29,19 @@ public class TicketService {
 //    private final TicketRepository ticketRepository;
     private final PriceStrategyFactory priceStrategyFactory;
     private final ShowService showService;
-    private final Inventory inventory;
+
 
     @Value("${BIG_HALL_TO_SMALL_HALL_CONDITION}")
     private Short bigHallToSmallHallCondition;
+    @Value("${HOW_MANY_DAYS_BEFORE_SELLING_STARTS}")
+    private Short howManyDaysBeforeSellingStarts;
 
     @Autowired
-    public TicketService(PriceStrategyFactory priceStrategyFactory, ShowService showService, Inventory inventory) {
+    public TicketService(PriceStrategyFactory priceStrategyFactory, ShowService showService) {
 //        this.ticketRepository = ticketRepository;
         this.priceStrategyFactory = priceStrategyFactory;
         this.showService = showService;
-        this.inventory = inventory;
+
     }
 
     public TicketEntity sellTicket(@Valid TicketEntity ticketEntity) throws IOException, ApplicationException {
@@ -50,21 +53,53 @@ public class TicketService {
         return ticketEntity;
      }
 
-    public List<TicketEntity> sellTicketsEachDay(LocalDate performanceDate,@Valid ShowEntity showEntity) throws IOException, ApplicationException {
-        TicketEntity ticketEntity = new TicketEntity();
-        ticketEntity.setShowEntity(showEntity);
-        ticketEntity.setTicketDate( performanceDate);
-        ticketEntity = sellTicket(ticketEntity);
-        List<TicketEntity> soldTicketList = new ArrayList<>();
-        for (int x = 0;x<ticketEntity.getHallEnum().getSellPerDay();x++)
-        {
-            soldTicketList.add(ticketEntity.copy());
-        }
-        return soldTicketList;
+    public SellStatistic addSoldTicketsEachDay(SellStatistic sellStatistic) throws IOException, ApplicationException {
+          sellTicket(sellStatistic.getTicketEntity());
+//        List<TicketEntity> soldTicketList = new ArrayList<>();
+//        SellStatistic sellStatistic = new SellStatistic();
+//        sellStatistic.setTicketEntity(ticketEntity);
+//        for (int x = 0;x<ticketEntity.getHallEnum().getSellPerDay();x++)
+//        {
+            sellStatistic.setTotalSoldTicket(sellStatistic.getTicketEntity().getHallEnum().getSellPerDay()+sellStatistic.getTotalSoldTicket());
+//        }
+        return sellStatistic;
     }
 
     public void findStatusesFromCsv(String filePath,LocalDate queryDate,LocalDate showDate) throws IOException {
         showService.saveAllFromCsv(filePath);
+        showService.findAllShowes().forEach(showEntity ->
+        {
+            Long daysToShowDate = DAYS.between(showDate,queryDate);
+            if(daysToShowDate<0)
+            {
+                showEntity.setShowStateEnum(ShowStateEnum.IN_THE_PAST);
+            }
+            else if(daysToShowDate<=howManyDaysBeforeSellingStarts)
+            {
+                TicketEntity ticketEntity = new TicketEntity();
+                ticketEntity.setShowEntity(showEntity);
+                ticketEntity.setTicketDate(showDate);
+                SellStatistic sellStatistic = new SellStatistic();
+                sellStatistic.setTicketEntity(ticketEntity);
+                sellStatistic.setTotalSoldTicket(0);
+                try {
+                    while (sellStatistic.getTotalSoldTicket()<sellStatistic.getTotalAvailableTicket())
+                    {
+                        //TODO  break if queryDate is passing
+                        addSoldTicketsEachDay(sellStatistic);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ApplicationException e) {
+                    e.printStackTrace();
+                }
+                showEntity.setShowStateEnum(ShowStateEnum.OPEN_FOR_SALE);
+            }
+            else
+            {
+                showEntity.setShowStateEnum(ShowStateEnum.SALE_NOT_STARTED);
+            }
+        });
 //        inventory.findShow()
 //        TODO
 //The main logic

@@ -50,5 +50,9 @@ public void saveAllFromCsv(String filePath) throws IOException {
     inventory.setShowEntityList(showEntities);
 
 }
+public List<ShowEntity> findAllShowes()
+{
+    return inventory.getShowEntityList();
+}
 
 }
