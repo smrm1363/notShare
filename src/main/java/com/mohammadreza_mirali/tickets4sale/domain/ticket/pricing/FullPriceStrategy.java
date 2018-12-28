@@ -11,7 +11,7 @@ public class FullPriceStrategy implements PriceStrategy {
     public Integer calculatePrice(ShowEntity showEntity) throws IOException {
         Properties properties = PropertiesLoader.loadProperties("application.properties");
 
-        Integer priceOfGenre = Integer.valueOf(properties.getProperty(showEntity.getGenreEnum().toString()));
+        Integer priceOfGenre = Integer.valueOf(properties.getProperty(showEntity.getGenreEnum().name()));
 
         return priceOfGenre;
     }

@@ -1,28 +1,13 @@
 package com.mohammadreza_mirali.tickets4sale.domain.show;
 
-
-
-import com.mohammadreza_mirali.tickets4sale.domain.ticket.TicketEntity;
 import com.mohammadreza_mirali.tickets4sale.util.PropertiesLoader;
-
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
 
-@Table(
-        uniqueConstraints=
-        @UniqueConstraint(columnNames={"title", "startDate","genreEnum"})
-)
-@Entity
 public class ShowEntity {
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private String id;
 
     @NotNull
     private String title;
@@ -30,8 +15,6 @@ public class ShowEntity {
     private LocalDate startDate;
     @NotNull
     private GenreEnum genreEnum;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "showEntity")
-    private List<TicketEntity> ticketEntityList;
     private ShowStateEnum showStateEnum;
 
 
@@ -61,22 +44,6 @@ public class ShowEntity {
     public ShowEntity setGenreEnum(GenreEnum genreEnum) {
         this.genreEnum = genreEnum;
         return this;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public List<TicketEntity> getTicketEntityList() {
-        return ticketEntityList;
-    }
-
-    public void setTicketEntityList(List<TicketEntity> ticketEntityList) {
-        this.ticketEntityList = ticketEntityList;
     }
 
     public ShowStateEnum getShowStateEnum() {

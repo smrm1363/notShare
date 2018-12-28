@@ -1,4 +1,4 @@
-package com.mohammadreza_mirali.tickets4sale.domain;
+package com.mohammadreza_mirali.tickets4sale.domain.show;
 
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowEntity;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class Inventory {
+public class ShowInventory {
     private List<ShowEntity> showEntityList = new ArrayList<>();
 
     public List<ShowEntity> getShowEntityList() {

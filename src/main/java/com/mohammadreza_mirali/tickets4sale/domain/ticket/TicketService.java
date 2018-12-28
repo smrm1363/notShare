@@ -1,22 +1,22 @@
 package com.mohammadreza_mirali.tickets4sale.domain.ticket;
 
 import com.mohammadreza_mirali.tickets4sale.domain.ApplicationException;
-import com.mohammadreza_mirali.tickets4sale.domain.HallEnum;
-import com.mohammadreza_mirali.tickets4sale.domain.Inventory;
-import com.mohammadreza_mirali.tickets4sale.domain.show.ShowEntity;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowService;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowStateEnum;
 import com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing.PriceStrategy;
 import com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing.PriceStrategyFactory;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +26,6 @@ import static java.time.temporal.ChronoUnit.DAYS;
 @Service
 @Validated
 public class TicketService {
-//    private final TicketRepository ticketRepository;
     private final PriceStrategyFactory priceStrategyFactory;
     private final ShowService showService;
 
@@ -38,76 +37,85 @@ public class TicketService {
 
     @Autowired
     public TicketService(PriceStrategyFactory priceStrategyFactory, ShowService showService) {
-//        this.ticketRepository = ticketRepository;
         this.priceStrategyFactory = priceStrategyFactory;
         this.showService = showService;
 
     }
 
     public TicketEntity sellTicket(@Valid TicketEntity ticketEntity) throws IOException, ApplicationException {
-        if(ticketEntity.getSoldDate().isAfter(ticketEntity.getShowEntity().getEndDate()) || ticketEntity.getSoldDate().isAfter(ticketEntity.getTicketDate()))
-            throw new ApplicationException("There is a problem in dates");
-        PriceStrategy priceStrategy = priceStrategyFactory.getPriceStrategyInstance(ticketEntity.getTicketDate(),ticketEntity.getShowEntity());
+        PriceStrategy priceStrategy = priceStrategyFactory.getPriceStrategyInstance(ticketEntity.getPerformancetDate(),ticketEntity.getShowEntity());
         ticketEntity.setPrice(priceStrategy.calculatePrice(ticketEntity.getShowEntity()));
         ticketEntity.setHallEnum(findHall( ticketEntity));
         return ticketEntity;
      }
 
     public SellStatistic addSoldTicketsEachDay(SellStatistic sellStatistic) throws IOException, ApplicationException {
-          sellTicket(sellStatistic.getTicketEntity());
-//        List<TicketEntity> soldTicketList = new ArrayList<>();
-//        SellStatistic sellStatistic = new SellStatistic();
-//        sellStatistic.setTicketEntity(ticketEntity);
-//        for (int x = 0;x<ticketEntity.getHallEnum().getSellPerDay();x++)
-//        {
-            sellStatistic.setTotalSoldTicket(sellStatistic.getTicketEntity().getHallEnum().getSellPerDay()+sellStatistic.getTotalSoldTicket());
-//        }
+        sellTicket(sellStatistic.getTicketEntity());
+        sellStatistic.setTotalSoldTicket(sellStatistic.getTicketEntity().getHallEnum().getSellPerDay()+sellStatistic.getTotalSoldTicket());
         return sellStatistic;
     }
 
-    public void findStatusesFromCsv(String filePath,LocalDate queryDate,LocalDate showDate) throws IOException {
-        showService.saveAllFromCsv(filePath);
+    public List<SellStatistic> findStatusesFromCsv(String filePath, LocalDate queryDate, LocalDate showDate) throws IOException {
+        showService.convertAllFromCsv(filePath);
+        List<SellStatistic> sellStatisticList = new ArrayList<>();
         showService.findAllShowes().forEach(showEntity ->
         {
-            Long daysToShowDate = DAYS.between(showDate,queryDate);
-            if(daysToShowDate<0)
-            {
-                showEntity.setShowStateEnum(ShowStateEnum.IN_THE_PAST);
-            }
-            else if(daysToShowDate<=howManyDaysBeforeSellingStarts)
-            {
-                TicketEntity ticketEntity = new TicketEntity();
-                ticketEntity.setShowEntity(showEntity);
-                ticketEntity.setTicketDate(showDate);
-                SellStatistic sellStatistic = new SellStatistic();
-                sellStatistic.setTicketEntity(ticketEntity);
-                sellStatistic.setTotalSoldTicket(0);
-                try {
-                    while (sellStatistic.getTotalSoldTicket()<sellStatistic.getTotalAvailableTicket())
-                    {
-                        //TODO  break if queryDate is passing
-                        addSoldTicketsEachDay(sellStatistic);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ApplicationException e) {
-                    e.printStackTrace();
-                }
-                showEntity.setShowStateEnum(ShowStateEnum.OPEN_FOR_SALE);
-            }
-            else
-            {
-                showEntity.setShowStateEnum(ShowStateEnum.SALE_NOT_STARTED);
-            }
-        });
-//        inventory.findShow()
-//        TODO
-//The main logic
-    }
+            LocalDate startSellingDate = showDate.minusDays(howManyDaysBeforeSellingStarts);
+            Long daysToShowDate = DAYS.between(queryDate,showDate);
+            TicketEntity ticketEntity = new TicketEntity();
+            ticketEntity.setShowEntity(showEntity);
+            ticketEntity.setPerformancetDate(showDate);
+            SellStatistic sellStatistic = new SellStatistic();
+            sellStatistic.setTicketEntity(ticketEntity);
+            sellStatistic.setTotalSoldTicket(0);
 
+            try {
+                if(daysToShowDate<0 || showEntity.getEndDate().isBefore(showDate))
+                {
+                    sellStatistic.getTicketEntity().getShowEntity().setShowStateEnum(ShowStateEnum.IN_THE_PAST);
+                }
+                else if(daysToShowDate<=howManyDaysBeforeSellingStarts)
+                {
+                        while (queryDate.isAfter(startSellingDate)) {
+                            addSoldTicketsEachDay(sellStatistic);
+                            if(sellStatistic.getTotalSoldTicket()>=sellStatistic.getTotalAvailableTicket())
+                                break;
+                            startSellingDate = startSellingDate.plusDays(1);
+                        }
+                            if(sellStatistic.getTotalAvailableTicket()>0)
+                                sellStatistic.getTicketEntity().getShowEntity().setShowStateEnum(ShowStateEnum.OPEN_FOR_SALE);
+                            else
+                                sellStatistic.getTicketEntity().getShowEntity().setShowStateEnum(ShowStateEnum.SOLD_OUT);
+                            }
+                else
+                {
+                    sellStatistic.getTicketEntity().getShowEntity().setShowStateEnum(ShowStateEnum.SALE_NOT_STARTED);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ApplicationException e) {
+                e.printStackTrace();
+            }
+
+            sellStatisticList.add(sellStatistic);
+        });
+        return sellStatisticList;
+
+    }
+    public List<SellStatistic> findStatusesFromCsv(@Pattern(regexp = "([^\\s]+(\\.(?i)(csv))$)")String filePath,
+                                                   @NotNull String queryDate,
+                                                   @NotNull String showDate) throws IOException, ApplicationException {
+        try {
+            return findStatusesFromCsv(filePath, LocalDate.parse(queryDate), LocalDate.parse(showDate));
+        }
+        catch (DateTimeParseException  e)
+        {
+            throw new ApplicationException("The format of dates should be YYYY-MM-dd");
+        }
+    }
     private HallEnum findHall(TicketEntity ticketEntity)
     {
-        if(DAYS.between(ticketEntity.getTicketDate(),ticketEntity.getShowEntity().getStartDate())>bigHallToSmallHallCondition)
+        if(DAYS.between(ticketEntity.getShowEntity().getStartDate(),ticketEntity.getPerformancetDate())>bigHallToSmallHallCondition)
             return HallEnum.SMALL;
         return HallEnum.BIG;
     }

@@ -1,6 +1,9 @@
 package com.mohammadreza_mirali.tickets4sale.domain.ticket;
 
+import javax.validation.constraints.NotNull;
+
 public class SellStatistic {
+    @NotNull
     private TicketEntity ticketEntity;
     private Integer totalSoldTicket;
 

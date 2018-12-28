@@ -1,40 +1,25 @@
 package com.mohammadreza_mirali.tickets4sale.domain.ticket;
 
-import com.mohammadreza_mirali.tickets4sale.domain.HallEnum;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowEntity;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-@Entity
 public class TicketEntity {
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private String id;
+
     @NotNull
-    private LocalDate ticketDate;
-    @NotNull
-    private LocalDate SoldDate;
+    private LocalDate performancetDate;
     private Integer price;
     private HallEnum  hallEnum;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
     private ShowEntity showEntity;
 
-    public String getId() {
-        return id;
+    public LocalDate getPerformancetDate() {
+        return performancetDate;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public LocalDate getTicketDate() {
-        return ticketDate;
-    }
-
-    public void setTicketDate(LocalDate ticketDate) {
-        this.ticketDate = ticketDate;
+    public void setPerformancetDate(LocalDate performancetDate) {
+        this.performancetDate = performancetDate;
     }
 
     public Integer getPrice() {
@@ -61,21 +46,4 @@ public class TicketEntity {
         this.showEntity = showEntity;
     }
 
-    public LocalDate getSoldDate() {
-        return SoldDate;
-    }
-
-    public void setSoldDate(LocalDate soldDate) {
-        SoldDate = soldDate;
-    }
-    public TicketEntity copy()
-    {
-        TicketEntity ticketEntity = new TicketEntity();
-        ticketEntity.setTicketDate(ticketDate);
-        ticketEntity.setHallEnum(hallEnum);
-        ticketEntity.setShowEntity(showEntity);
-        ticketEntity.setPrice(price);
-        ticketEntity.setSoldDate(getSoldDate());
-        return ticketEntity;
-    }
 }
