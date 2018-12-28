@@ -102,17 +102,7 @@ public class TicketService {
         return sellStatisticList;
 
     }
-    public List<SellStatistic> findStatusesFromCsv(@Pattern(regexp = "([^\\s]+(\\.(?i)(csv))$)")String filePath,
-                                                   @NotNull String queryDate,
-                                                   @NotNull String showDate) throws IOException, ApplicationException {
-        try {
-            return findStatusesFromCsv(filePath, LocalDate.parse(queryDate), LocalDate.parse(showDate));
-        }
-        catch (DateTimeParseException  e)
-        {
-            throw new ApplicationException("The format of dates should be YYYY-MM-dd");
-        }
-    }
+
     private HallEnum findHall(TicketEntity ticketEntity)
     {
         if(DAYS.between(ticketEntity.getShowEntity().getStartDate(),ticketEntity.getPerformancetDate())>bigHallToSmallHallCondition)

@@ -1,11 +1,15 @@
 package com.mohammadreza_mirali.tickets4sale.domain.ticket;
 
-import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SellStatistic {
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+
+public class SellStatistic implements Serializable{
     @NotNull
     private TicketEntity ticketEntity;
     private Integer totalSoldTicket;
+    private Integer totalAvailableTicket;
 
     public TicketEntity getTicketEntity() {
         return ticketEntity;
@@ -22,8 +26,16 @@ public class SellStatistic {
     public void setTotalSoldTicket(Integer totalSoldTicket) {
         this.totalSoldTicket = totalSoldTicket;
     }
+
     public Integer getTotalAvailableTicket()
     {
-        return ticketEntity.getHallEnum().getCapacity()-totalSoldTicket;
+        if(ticketEntity.getHallEnum() != null)
+            return ticketEntity.getHallEnum().getCapacity()-totalSoldTicket;
+        else
+            return 0;
+    }
+    public void setTotalAvailableTicket(Integer totalAvailableTicket)
+    {
+        this.totalAvailableTicket = totalAvailableTicket;
     }
 }

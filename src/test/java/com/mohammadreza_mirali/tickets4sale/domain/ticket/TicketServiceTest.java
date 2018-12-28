@@ -39,7 +39,7 @@ public class TicketServiceTest {
         ticketService.findStatusesFromCsv("E:\\work\\projects\\Netherlands\\Otravo\\shows.csv",
                 LocalDate.of(2018,4,25),LocalDate.of(2018,5,26));
         ticketService.findStatusesFromCsv("E:\\work\\projects\\Netherlands\\Otravo\\shows.csv",
-                "2018-04-25","2018-15-26");
+                LocalDate.parse("2018-04-25"),LocalDate.parse("2018-15-26"));
     }
 
 }

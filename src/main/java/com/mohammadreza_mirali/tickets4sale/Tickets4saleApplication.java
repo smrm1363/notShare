@@ -28,7 +28,7 @@ private static Scanner scanner = new Scanner( System.in );
 	public void run(String... strings) throws Exception {
 		if(strings.length==0)
 			return;
-		ticketService.findStatusesFromCsv(strings[0],strings[1],strings[2]);
+		ticketService.findStatusesFromCsv(strings[0],LocalDate.parse(strings[1]),LocalDate.parse(strings[2]));
 	}
 
 }
