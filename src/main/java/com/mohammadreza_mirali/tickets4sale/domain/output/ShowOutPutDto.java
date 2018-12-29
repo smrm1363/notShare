@@ -12,6 +12,7 @@ public class ShowOutPutDto implements Serializable {
     private Integer ticketsLeft;
     private Integer ticketsAvailable;
     private ShowStateEnum status;
+    private Integer price;
 
     public String getTitle() {
         return title;
@@ -43,5 +44,13 @@ public class ShowOutPutDto implements Serializable {
 
     public void setStatus(ShowStateEnum status) {
         this.status = status;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 }

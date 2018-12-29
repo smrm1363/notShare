@@ -1,5 +1,6 @@
 package com.mohammadreza_mirali.tickets4sale;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mohammadreza_mirali.tickets4sale.domain.output.OutputDtoMaker;
 import com.mohammadreza_mirali.tickets4sale.domain.output.ResultOutputDto;
@@ -33,6 +34,8 @@ private static Scanner scanner = new Scanner( System.in );
 		if(strings.length==0)
 			return;
 		List<ResultOutputDto> resultOutputDtoList= outputDtoMaker.makeOutputDto(strings[0],LocalDate.parse(strings[1]),LocalDate.parse(strings[2]));
+		@JsonFilter("test")
+		class DataMixIn {};
 		ObjectMapper objectMapper = new ObjectMapper();
 		String output = objectMapper.writeValueAsString(resultOutputDtoList);
 		output = "{\"inventory\": ["+output+"]}";

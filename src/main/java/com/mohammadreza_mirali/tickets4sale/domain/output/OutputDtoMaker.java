@@ -47,6 +47,7 @@ public class OutputDtoMaker {
                                 showOutPutDto.setStatus(sellStatistic.getTicketEntity().getShowEntity().getShowStateEnum());
                                 showOutPutDto.setTicketsLeft(sellStatistic.getTotalSoldTicket());
                                 showOutPutDto.setTicketsAvailable(sellStatistic.getTotalAvailableTicket());
+                                showOutPutDto.setPrice(sellStatistic.getTicketEntity().getPrice());
                                 return showOutPutDto;
                             }).collect(Collectors.toList())
                     );
