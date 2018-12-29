@@ -5,61 +5,102 @@
 <script src="js/react.js"></script>
 <script src="js/react-dom.js"></script>
 <script src="js/browser.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/axios.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/reactstrap.full.min.js"></script>
 <link rel="stylesheet" href="js/bootstrap.min.css">
-
 <body>
 <div id="root"></div>
 
 
-    <script type="text/babel">
-        var Employee = React.createClass({
-            render: function() {
-                return (
-                        <tr>
-                            <td>{this.props.employee.name}</td>
-                            <td>{this.props.employee.age}</td>
-                            <td>{this.props.employee.years}</td>
-                        </tr>);
-            }
-        });
-        var EmployeeTable = React.createClass({
-            render: function() {
-                var rows = [];
-                this.props.employees.forEach(function(employee) {
-                    rows.push(<Employee employee={employee} />);
-                });
-                return (
-                        <div className="container">
+<script type="text/babel">
+    var ResultOutputDto = React.createClass({
+        render: function () {
+            var genere = this.props.resultOutputDto.genre;
+            var shows = this.props.resultOutputDto.shows.map((show, index) =>
+                    <tr key={index}>
+                        <td>{show.title}</td>
+                        <td>{show.ticketsLeft}</td>
+                        <td>{show.ticketsAvailable}</td>
+                        <td>{show.status}</td>
+                        <td>{show.price}</td>
+                    </tr>
+            );
+            return (
+                    <div id="table">
+                        <h1>{genere}</h1>
                         <table className="table table-striped">
                             <thead>
                             <tr>
-                                <th>Name</th><th>Age</th><th>Years</th>
+                                <th>title</th>
+                                <th>ticketsLeft</th>
+                                <th>ticketsAvailable</th>
+                                <th>status</th>
+                                <th>price</th>
                             </tr>
                             </thead>
-                            <tbody>{rows}</tbody>
+                            <tbody>
+                            {shows}
+                            </tbody>
                         </table>
-                        </div>);
-            }
-        });
-
-
-        var EMPLOYEES = [
-            {name: 'Joe Biden', age: 45, years: 5},
-            {name: 'President Obama', age: 54, years: 8},
-            {name: 'Crystal Mac', age: 34, years: 12},
-            {name: 'James Henry', age: 33, years: 2}
-        ];
-
-
-
-
-
-
-        ReactDOM.render(
-                <EmployeeTable employees={EMPLOYEES} />, document.getElementById('root')
-        );
-
+                    </div>);
+        }
+    });
+    var ResultOutputDtoTable = React.createClass({
+        render: function () {
+            var rows = [];
+            this.props.resultOutputDtos.map( (resultOutputDto,index)=> {
+                rows.push(<ResultOutputDto key={index} resultOutputDto={resultOutputDto}/>);
+            });
+            return (
+                    <div className="container">
+                        {rows}
+                    </div>);
+        }
+    });
+    var App = React.createClass({
+        getMoviesFromApiAsync: function () {
+            var self = this;
+            axios.get('http://localhost:8080/findSellStatistic?showDate=' + this.state.date)
+                .then(function (response) {
+                    self.setState({resultOutputDtos: response.data});
+                    console.log(response.data);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+        },
+        getInitialState: function () {
+            return {date: ''};
+        },
+        componentDidMount: function () {
+        },
+        handleChange: function (event) {
+            this.setState({date: event.target.value});
+        },
+        render() {
+            return (
+                    <div className="container">
+                        <div class="form-group">
+                            <label for="usr">Date : </label>
+                            <input type="text" class="form-control" value={this.state.date} onChange={this.handleChange}
+                                   id="usr"/>
+                        </div>
+                        <button onClick={this.getMoviesFromApiAsync} block>
+                            Search geners
+                        </button>
+                        {this.state.resultOutputDtos ?
+                                <ResultOutputDtoTable resultOutputDtos={this.state.resultOutputDtos}/> :
+                                <h2>No data!</h2>}
+                    </div>
+            );
+        }
+    });
+    ReactDOM.render(
+            <App/>, document.getElementById('root')
+    );
 </script>
-
 </body>
 </html>

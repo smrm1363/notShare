@@ -1,5 +1,8 @@
 package com.mohammadreza_mirali.tickets4sale;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mohammadreza_mirali.tickets4sale.domain.output.OutputDtoMaker;
+import com.mohammadreza_mirali.tickets4sale.domain.output.ResultOutputDto;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowEntity;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowService;
 import com.mohammadreza_mirali.tickets4sale.domain.ticket.TicketService;
@@ -9,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -16,7 +20,7 @@ import java.util.Scanner;
 public class Tickets4saleApplication implements CommandLineRunner {
 
 	@Autowired
-	TicketService ticketService;
+	OutputDtoMaker outputDtoMaker;
 private static Scanner scanner = new Scanner( System.in );
 
 	public static void main(String[] args) {
@@ -28,7 +32,12 @@ private static Scanner scanner = new Scanner( System.in );
 	public void run(String... strings) throws Exception {
 		if(strings.length==0)
 			return;
-		ticketService.findStatusesFromCsv(strings[0],LocalDate.parse(strings[1]),LocalDate.parse(strings[2]));
+		List<ResultOutputDto> resultOutputDtoList= outputDtoMaker.makeOutputDto(strings[0],LocalDate.parse(strings[1]),LocalDate.parse(strings[2]));
+		ObjectMapper objectMapper = new ObjectMapper();
+		String output = objectMapper.writeValueAsString(resultOutputDtoList);
+		output = "{\"inventory\": ["+output+"]}";
+		System.out.println(output);
+//		ticketService.findStatusesFromCsv(strings[0],LocalDate.parse(strings[1]),LocalDate.parse(strings[2]));
 	}
 
 }
