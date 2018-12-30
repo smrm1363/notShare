@@ -1,11 +1,12 @@
-package com.mohammadreza_mirali.tickets4sale.domain.output;
+package com.mohammadreza_mirali.tickets4sale.controller.dto;
 
 import java.io.Serializable;
 import java.util.List;
 
+
 public class ResultOutputDto implements Serializable{
     private String genre;
-    private List<ShowOutPutDto> shows;
+    private List<ShowOutputDtoConsole> shows;
 
     public String getGenre() {
         return genre;
@@ -15,11 +16,11 @@ public class ResultOutputDto implements Serializable{
         this.genre = genre;
     }
 
-    public List<ShowOutPutDto> getShows() {
+    public List<ShowOutputDtoConsole> getShows() {
         return shows;
     }
 
-    public void setShows(List<ShowOutPutDto> shows) {
+    public void setShows(List<ShowOutputDtoConsole> shows) {
         this.shows = shows;
     }
 }

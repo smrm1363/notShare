@@ -1850,7 +1850,7 @@ var DOMPropertyOperations = {
         var attributeName = propertyInfo.attributeName;
         var namespace = propertyInfo.attributeNamespace;
         // `setAttribute` with objects becomes only `[object]` in IE8/9,
-        // ('' + value) makes it output the correct toString()-value.
+        // ('' + value) makes it dto the correct toString()-value.
         if (namespace) {
           node.setAttributeNS(namespace, attributeName, '' + value);
         } else if (propertyInfo.hasBooleanValue || propertyInfo.hasOverloadedBooleanValue && value === true) {
@@ -4138,7 +4138,7 @@ function instantiateChild(childInstances, child, name) {
 
 /**
  * ReactChildReconciler provides helpers for initializing or updating a set of
- * children. Its output is suitable for passing it onto ReactMultiChild which
+ * children. Its dto is suitable for passing it onto ReactMultiChild which
  * does diffed reordering and insertion.
  */
 var ReactChildReconciler = {

@@ -1,7 +1,7 @@
 package com.mohammadreza_mirali.tickets4sale.controller;
 
-import com.mohammadreza_mirali.tickets4sale.domain.output.OutputDtoMaker;
-import com.mohammadreza_mirali.tickets4sale.domain.output.ResultOutputDto;
+import com.mohammadreza_mirali.tickets4sale.controller.dto.OutputDtoMaker;
+import com.mohammadreza_mirali.tickets4sale.controller.dto.ResultOutputDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;

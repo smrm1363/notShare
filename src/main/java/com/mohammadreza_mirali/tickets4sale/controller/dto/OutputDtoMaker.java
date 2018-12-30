@@ -1,4 +1,4 @@
-package com.mohammadreza_mirali.tickets4sale.domain.output;
+package com.mohammadreza_mirali.tickets4sale.controller.dto;
 
 import com.mohammadreza_mirali.tickets4sale.domain.ticket.SellStatistic;
 import com.mohammadreza_mirali.tickets4sale.domain.ticket.TicketService;
