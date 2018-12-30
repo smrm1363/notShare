@@ -28,8 +28,13 @@ public class TicketService {
 
     @Value("${BIG_HALL_TO_SMALL_HALL_CONDITION}")
     private Short bigHallToSmallHallCondition;
-    @Value("${HOW_MANY_DAYS_BEFORE_SELLING_STARTS}")
+
     private Short howManyDaysBeforeSellingStarts;
+    @Value("${HOW_MANY_DAYS_BEFORE_SELLING_STARTS}")
+    public void setHowManyDaysBeforeSellingStarts(Short howManyDaysBeforeSellingStarts)
+    {
+        this.howManyDaysBeforeSellingStarts = howManyDaysBeforeSellingStarts;
+    }
 
     @Autowired
     public TicketService(PriceStrategyFactory priceStrategyFactory, ShowService showService) {
@@ -99,10 +104,11 @@ public class TicketService {
 
     }
 
-    private HallEnum findHall(TicketEntity ticketEntity)
+    protected HallEnum findHall(TicketEntity ticketEntity)
     {
         if(DAYS.between(ticketEntity.getShowEntity().getStartDate(),ticketEntity.getPerformanceDate())>bigHallToSmallHallCondition)
             return HallEnum.SMALL;
         return HallEnum.BIG;
     }
+
 }

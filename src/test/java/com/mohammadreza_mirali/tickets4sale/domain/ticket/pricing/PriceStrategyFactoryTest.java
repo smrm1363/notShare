@@ -1,11 +1,7 @@
-package com.mohammadreza_mirali.tickets4sale.domain.show.pricing;
+package com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing;
 
 import com.mohammadreza_mirali.tickets4sale.domain.show.GenreEnum;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowEntity;
-import com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing.DiscountedPriceStrategy;
-import com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing.FullPriceStrategy;
-import com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing.PriceStrategy;
-import com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing.PriceStrategyFactory;
 import org.junit.Test;
 
 import java.time.LocalDate;

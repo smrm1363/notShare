@@ -18,11 +18,5 @@ public class ShowInventory {
         this.showEntityList = showEntityList;
     }
 
-    public ShowEntity findShow(ShowEntity showEntity)
-    {
-        Optional<ShowEntity> showEntityOptional = showEntityList.stream().filter(showEntity1 ->
-                showEntity1.getTitle().equals(showEntity.getTitle()) && showEntity1.getStartDate().equals(showEntity.getStartDate())).findAny();
-        return showEntityOptional.get();
-    }
 
 }

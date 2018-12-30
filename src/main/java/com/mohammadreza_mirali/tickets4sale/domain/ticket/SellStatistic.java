@@ -6,8 +6,8 @@ import java.io.Serializable;
 public class SellStatistic implements Serializable{
     @NotNull
     private TicketEntity ticketEntity;
-    private Integer totalSoldTicket;
-    private Integer totalAvailableTicket;
+    private Integer totalSoldTicket = 0;
+    private Integer totalAvailableTicket = 0;
 
     public TicketEntity getTicketEntity() {
         return ticketEntity;
