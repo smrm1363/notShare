@@ -7,16 +7,12 @@ import com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing.PriceStrategy;
 import com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing.PriceStrategyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +39,7 @@ public class TicketService {
     }
 
     public TicketEntity sellTicket(@Valid TicketEntity ticketEntity) throws IOException, ApplicationException {
-        PriceStrategy priceStrategy = priceStrategyFactory.getPriceStrategyInstance(ticketEntity.getPerformancetDate(),ticketEntity.getShowEntity());
+        PriceStrategy priceStrategy = priceStrategyFactory.getPriceStrategyInstance(ticketEntity.getPerformanceDate(),ticketEntity.getShowEntity());
         ticketEntity.setPrice(priceStrategy.calculatePrice(ticketEntity.getShowEntity()));
         ticketEntity.setHallEnum(findHall( ticketEntity));
         return ticketEntity;
@@ -58,13 +54,13 @@ public class TicketService {
     public List<SellStatistic> findStatusesFromCsv(String filePath, LocalDate queryDate, LocalDate showDate) throws IOException {
         showService.convertAllFromCsv(filePath);
         List<SellStatistic> sellStatisticList = new ArrayList<>();
-        showService.findAllShowes().forEach(showEntity ->
+        showService.findAllShows().forEach(showEntity ->
         {
             LocalDate startSellingDate = showDate.minusDays(howManyDaysBeforeSellingStarts);
             Long daysToShowDate = DAYS.between(queryDate,showDate);
             TicketEntity ticketEntity = new TicketEntity();
             ticketEntity.setShowEntity(showEntity);
-            ticketEntity.setPerformancetDate(showDate);
+            ticketEntity.setPerformanceDate(showDate);
             SellStatistic sellStatistic = new SellStatistic();
             sellStatistic.setTicketEntity(ticketEntity);
             sellStatistic.setTotalSoldTicket(0);
@@ -105,7 +101,7 @@ public class TicketService {
 
     private HallEnum findHall(TicketEntity ticketEntity)
     {
-        if(DAYS.between(ticketEntity.getShowEntity().getStartDate(),ticketEntity.getPerformancetDate())>bigHallToSmallHallCondition)
+        if(DAYS.between(ticketEntity.getShowEntity().getStartDate(),ticketEntity.getPerformanceDate())>bigHallToSmallHallCondition)
             return HallEnum.SMALL;
         return HallEnum.BIG;
     }

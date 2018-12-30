@@ -8,7 +8,7 @@ public enum  HallEnum {
     private final int sellPerDay;
     private final int capacity;
 
-    private HallEnum(int sellPerDay, int capacity) {
+    HallEnum(int sellPerDay, int capacity) {
         this.sellPerDay = sellPerDay;
         this.capacity = capacity;
     }

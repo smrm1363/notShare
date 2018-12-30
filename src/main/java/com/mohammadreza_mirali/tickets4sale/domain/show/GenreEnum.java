@@ -7,7 +7,7 @@ public enum  GenreEnum {
 
     private final String name;
 
-    private GenreEnum(String s) {
+    GenreEnum(String s) {
         name = s;
     }
 

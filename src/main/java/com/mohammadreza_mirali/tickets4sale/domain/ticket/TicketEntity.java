@@ -8,18 +8,18 @@ import java.time.LocalDate;
 public class TicketEntity {
 
     @NotNull
-    private LocalDate performancetDate;
+    private LocalDate performanceDate;
     private Integer price;
     private HallEnum  hallEnum;
     @NotNull
     private ShowEntity showEntity;
 
-    public LocalDate getPerformancetDate() {
-        return performancetDate;
+    public LocalDate getPerformanceDate() {
+        return performanceDate;
     }
 
-    public void setPerformancetDate(LocalDate performancetDate) {
-        this.performancetDate = performancetDate;
+    public void setPerformanceDate(LocalDate performanceDate) {
+        this.performanceDate = performanceDate;
     }
 
     public Integer getPrice() {

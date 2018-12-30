@@ -8,7 +8,7 @@ public enum ShowStateEnum {
 
     private final String name;
 
-    private ShowStateEnum(String s) {
+    ShowStateEnum(String s) {
         name = s;
     }
 

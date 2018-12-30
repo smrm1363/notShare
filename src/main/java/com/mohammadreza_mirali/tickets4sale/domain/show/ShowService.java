@@ -42,7 +42,7 @@ public void convertAllFromCsv(String filePath) throws IOException {
     showInventory.setShowEntityList(showEntities);
 
 }
-public List<ShowEntity> findAllShowes()
+public List<ShowEntity> findAllShows()
 {
     return showInventory.getShowEntityList();
 }

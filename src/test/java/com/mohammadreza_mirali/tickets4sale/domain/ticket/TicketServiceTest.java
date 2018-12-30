@@ -23,7 +23,7 @@ public class TicketServiceTest {
     public void sellTicket() throws Exception {
 
         TicketEntity ticketEntity = new TicketEntity();
-        ticketEntity.setPerformancetDate(LocalDate.of(2019,01,20));
+        ticketEntity.setPerformanceDate(LocalDate.of(2019,01,20));
 //        ticketEntity.setPerformancetDate(null);
 
 //        ticketEntity.setSoldDate(LocalDate.of(2019,01,1));

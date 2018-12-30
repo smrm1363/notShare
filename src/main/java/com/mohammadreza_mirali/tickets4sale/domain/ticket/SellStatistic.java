@@ -1,7 +1,5 @@
 package com.mohammadreza_mirali.tickets4sale.domain.ticket;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 

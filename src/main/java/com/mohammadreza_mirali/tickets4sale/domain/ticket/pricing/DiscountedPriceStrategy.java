@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class DiscountedPriceStrategy implements PriceStrategy {
-    private final String discountPropertuKey = "80PERCENT";
+    private final String discountPropertyKey = "80PERCENT";
     @Override
     public Integer calculatePrice(ShowEntity showEntity) throws IOException {
         Properties properties = PropertiesLoader.loadProperties("application.properties");
 
         Integer priceOfGenre = Integer.valueOf(properties.getProperty(showEntity.getGenreEnum().name()));
-        Double discountPercent = Double.valueOf(properties.getProperty(discountPropertuKey));
+        Double discountPercent = Double.valueOf(properties.getProperty(discountPropertyKey));
 
         return Math.toIntExact(Math.round(discountPercent * .01 * priceOfGenre));
     }

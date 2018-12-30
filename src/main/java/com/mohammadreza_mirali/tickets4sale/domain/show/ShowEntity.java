@@ -1,6 +1,7 @@
 package com.mohammadreza_mirali.tickets4sale.domain.show;
 
 import com.mohammadreza_mirali.tickets4sale.util.PropertiesLoader;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
