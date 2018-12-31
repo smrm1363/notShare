@@ -4,7 +4,9 @@ import com.mohammadreza_mirali.tickets4sale.domain.show.ShowStateEnum;
 
 import java.io.Serializable;
 
-
+/**
+ * This is a DTO for our result which should be in our JSON result, It does not contain Price for CLI application
+ */
 public class ShowOutputDtoConsole implements Serializable{
     private String title;
     private Integer ticketsLeft;

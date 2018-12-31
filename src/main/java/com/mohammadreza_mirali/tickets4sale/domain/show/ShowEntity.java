@@ -8,6 +8,9 @@ import javax.validation.constraints.Size;
 import java.io.IOException;
 import java.time.LocalDate;
 
+/**
+ * This is the data structure of a Show
+ */
 public class ShowEntity {
 
     @NotNull
@@ -51,10 +54,16 @@ public class ShowEntity {
         return showStateEnum;
     }
 
-    public void setShowStateEnum(ShowStateEnum showStateEnum) {
+    public ShowEntity setShowStateEnum(ShowStateEnum showStateEnum) {
         this.showStateEnum = showStateEnum;
+        return this;
     }
 
+    /**
+     *
+     * @return the valid period of a show. This is a configurable parameter in application.properties
+     * @throws IOException
+     */
     public short getValidPeriod() throws IOException {
        return Short.parseShort(PropertiesLoader.loadProperties("application.properties").getProperty("show_valid_period"));
 

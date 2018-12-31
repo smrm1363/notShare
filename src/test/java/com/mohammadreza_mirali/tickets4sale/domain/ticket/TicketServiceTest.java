@@ -4,6 +4,7 @@ import com.mohammadreza_mirali.tickets4sale.domain.ApplicationException;
 import com.mohammadreza_mirali.tickets4sale.domain.show.GenreEnum;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowEntity;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowService;
+import com.mohammadreza_mirali.tickets4sale.domain.show.ShowStateEnum;
 import com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing.PriceStrategyFactory;
 import com.mohammadreza_mirali.tickets4sale.util.PropertiesLoader;
 import org.junit.Before;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -82,24 +84,23 @@ public class TicketServiceTest {
         when(showService.findAllShows()).thenReturn(findAllShows());
         doNothing().when(showService).convertAllFromCsv(any());
         tickServiceSpy.setHowManyDaysBeforeSellingStarts((short) 25);
+        tickServiceSpy.setBigHallToSmallHallCondition((short) 80);
         List<SellStatistic> sellStatisticList = tickServiceSpy.findStatusesFromCsv("",LocalDate.of(2019,01,20)
-                ,LocalDate.of(2019,02,21));
+                ,LocalDate.of(2019,01,21));
         assertTrue(sellStatisticList.size()==3);
-//        CommandLineRunner runner = ctx.getBean(CommandLineRunner.class);
-//        runner.run ( "E:\\work\\projects\\Netherlands\\Otravo\\shows.csv", "2018-04-25", "2018-15-26");
-//
-//        ticketService.findStatusesFromCsv("E:\\work\\projects\\Netherlands\\Otravo\\shows.csv",
-//                LocalDate.of(2018,4,25),LocalDate.of(2018,5,26));
-//        ticketService.findStatusesFromCsv("E:\\work\\projects\\Netherlands\\Otravo\\shows.csv",
-//                LocalDate.parse("2018-04-25"),LocalDate.parse("2018-15-26"));
-
-
+        assertTrue(sellStatisticList.get(0).getTicketEntity().getShowEntity().getShowStateEnum().equals(ShowStateEnum.OPEN_FOR_SALE));
+        sellStatisticList = tickServiceSpy.findStatusesFromCsv("",LocalDate.of(2019,01,20)
+                ,LocalDate.of(2019,02,21));
+        assertTrue(sellStatisticList.get(0).getTicketEntity().getShowEntity().getShowStateEnum().equals(ShowStateEnum.SALE_NOT_STARTED));
+        sellStatisticList = tickServiceSpy.findStatusesFromCsv("",LocalDate.of(2019,01,20)
+                ,LocalDate.of(2018,02,21));
+        assertTrue(sellStatisticList.get(0).getTicketEntity().getShowEntity().getShowStateEnum().equals(ShowStateEnum.IN_THE_PAST));
     }
     private List<ShowEntity> findAllShows()
     {
         List<ShowEntity> showEntityList = new ArrayList<>();
         showEntityList.add(new ShowEntity()
-                .setGenreEnum(GenreEnum.COMEDY).setStartDate(LocalDate.of(2019,01,20)).setTitle("First show"));
+                .setGenreEnum(GenreEnum.COMEDY).setStartDate(LocalDate.of(2019,01,01)).setTitle("First show"));
         showEntityList.add(new ShowEntity()
                 .setGenreEnum(GenreEnum.DRAMA).setStartDate(LocalDate.of(2019,02,20)).setTitle("Second show"));
         showEntityList.add(new ShowEntity()

@@ -5,6 +5,9 @@ import com.mohammadreza_mirali.tickets4sale.domain.show.ShowEntity;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+/**
+ * The data structure for ticket entity
+ */
 public class TicketEntity {
 
     @NotNull

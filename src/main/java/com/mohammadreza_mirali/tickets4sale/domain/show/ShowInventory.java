@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This is a place for keeping show entities. Because we do not need database, I keep data in this structure
+ */
 @Component
 public class ShowInventory {
     private List<ShowEntity> showEntityList = new ArrayList<>();
