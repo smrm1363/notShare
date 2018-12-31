@@ -4,7 +4,7 @@ import com.mohammadreza_mirali.tickets4sale.domain.show.GenreEnum;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowEntity;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class DiscountedPriceStrategyTest {
     @Test

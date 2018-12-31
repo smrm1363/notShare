@@ -7,11 +7,9 @@ import org.junit.Test;
 
 import java.util.Properties;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-/**
- * Created by mmirali on 31/12/2018.
- */
+
 public class FullPriceStrategyTest {
     @Test
     public void calculatePrice() throws Exception {

@@ -1,6 +1,5 @@
 package com.mohammadreza_mirali.tickets4sale.domain.ticket;
 
-import com.mohammadreza_mirali.tickets4sale.domain.ApplicationException;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowService;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowStateEnum;
 import com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing.PriceStrategy;

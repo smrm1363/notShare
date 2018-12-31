@@ -12,10 +12,10 @@ import javax.validation.ValidatorFactory;
 import java.time.LocalDate;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
- * Created by mmirali on 09/12/2018.
+ * This is the data structure of a Show
  */
 public class ShowEntityTest {
 

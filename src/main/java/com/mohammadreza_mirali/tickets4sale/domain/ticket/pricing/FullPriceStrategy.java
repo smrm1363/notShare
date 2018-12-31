@@ -17,8 +17,6 @@ public class FullPriceStrategy implements PriceStrategy {
          */
         Properties properties = PropertiesLoader.loadProperties("application.properties");
 
-        Integer priceOfGenre = Integer.valueOf(properties.getProperty(showEntity.getGenreEnum().name()));
-
-        return priceOfGenre;
+        return Integer.valueOf(properties.getProperty(showEntity.getGenreEnum().name()));
     }
 }

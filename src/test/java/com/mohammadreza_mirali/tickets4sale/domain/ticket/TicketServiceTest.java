@@ -7,24 +7,17 @@ import com.mohammadreza_mirali.tickets4sale.domain.show.ShowService;
 import com.mohammadreza_mirali.tickets4sale.domain.show.ShowStateEnum;
 import com.mohammadreza_mirali.tickets4sale.domain.ticket.pricing.PriceStrategyFactory;
 import com.mohammadreza_mirali.tickets4sale.util.PropertiesLoader;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;

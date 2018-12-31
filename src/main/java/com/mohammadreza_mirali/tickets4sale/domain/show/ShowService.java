@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by mmirali on 08/12/2018.
+ * This is the main business logic of the Show
  */
 @Service
 public class ShowService {
@@ -25,8 +25,12 @@ public class ShowService {
         this.showInventory = showInventory;
     }
 
-
-public void convertAllFromCsv(String filePath) throws IOException {
+    /**
+     * It reads the CSV file from the filePath, convert it to a list of ShowEntity, store it in the show inventory
+     * @param filePath
+     * @throws IOException
+     */
+    public void convertAllFromCsv(String filePath) throws IOException {
 
     List<String[]> inventoryData = csvFileReader.readCsvFile(filePath);
     List<ShowEntity> showEntities = new ArrayList<>();
